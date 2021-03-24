@@ -1,15 +1,21 @@
-<html>
+<html >
 <body>
+
+<script>
+    window.addEventListener("load", function() {
+        paintComponent("0");
+    });
+</script>
 
 <p>Canvas:</p>
 <canvas id="myCanvas" width="600" height="600" style="border:1px solid #d3d3d3;">
 Your browser does not support the HTML5 canvas tag.</canvas>
 
 <script>
-var c = document.getElementById("myCanvas");
-var g2 = c.getContext("2d");
-//var img = new Image();
-var img = document.createElement("img");
+let c = document.getElementById("myCanvas");
+let g2 = c.getContext("2d");
+//let img = new Image();
+let img = document.createElement("img");
 img.src = "shuttle.jpg"
 
 function paintComponent(whichSelection) {
@@ -26,8 +32,8 @@ function paintComponent(whichSelection) {
       g2.rotate(Math.PI/2);
       g2.translate(0,0);
       //Shear
-      var hshear=0;
-      var vshear=0;
+      let hshear=0;
+      let vshear=0;
       // a c e
       // b d f
       // 0 0 1
@@ -37,12 +43,19 @@ function paintComponent(whichSelection) {
       break;
     case "1":
       //TODO
+        g2.scale(0.5,0.5);
+        g2.drawImage(img,-200,-150);
       break;
     case "2":
       //TODO
+        g2.rotate(Math.PI/4);
+        g2.drawImage(img,-200,-150);
       break;
     case "3":
       //TODO
+        g2.transform(-1,0,0,-1,0,0);
+        g2.scale(0.5,1);
+        g2.drawImage(img,-200,-150);
       break;
     case "4":    
       //TODO
@@ -65,18 +78,20 @@ function paintComponent(whichSelection) {
   }
 }
 </script>
-<select name="Transform" onchange="paintComponent(this.value)"> 
-<option value=""></option>
-<option value="0">0</option>
-<option value="1">1</option>
-<option value="2">2</option>
-<option value="3">3</option>
-<option value="4">4</option>
-<option value="5">5</option>
-<option value="6">6</option>
-<option value="7">7</option>
-<option value="8">8</option>
-<option value="9">9</option>
-</select>
+<label>
+    <select name="Transform" onchange="paintComponent(this.value)">
+    <option value=""></option>
+    <option value="0">0</option>
+    <option value="1">1</option>
+    <option value="2">2</option>
+    <option value="3">3</option>
+    <option value="4">4</option>
+    <option value="5">5</option>
+    <option value="6">6</option>
+    <option value="7">7</option>
+    <option value="8">8</option>
+    <option value="9">9</option>
+    </select>
+</label>
 </body>
 </html>
