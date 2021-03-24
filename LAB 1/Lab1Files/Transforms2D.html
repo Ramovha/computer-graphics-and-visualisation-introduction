@@ -53,27 +53,48 @@ function paintComponent(whichSelection) {
       break;
     case "3":
       //TODO
-        g2.transform(-1,0,0,-1,0,0);
-        g2.scale(0.5,1);
+        //g2.transform(-1,0,0,-1,0,0);
+        g2.scale(0.5,-1);
         g2.drawImage(img,-200,-150);
       break;
     case "4":    
       //TODO
+        g2.transform(1,0,0.35,1,0,0);
+        g2.drawImage(img,-200,-150);
+        
       break;
     case "5":
       //TODO
+        g2.scale(1,0.5);
+        g2.translate(0,-450);
+        g2.drawImage(img,-200,-150);
       break;
     case "6":
       //TODO
+        g2.rotate(Math.PI/2);
+        g2.transform(1,0,0.25,1,0,0);
+        g2.drawImage(img,-200,-150);
       break;
     case "7":    
       //TODO
+        g2.rotate(Math.PI);
+        g2.scale(0.5,1);
+        g2.drawImage(img,-200,-150);
       break;
     case "8":
       //TODO
+        g2.rotate(Math.PI/6);
+        g2.scale(1,0.5);
+        g2.translate(0,150);
+        g2.drawImage(img,-200,-150);
       break;
     case "9":
       //TODO
+        g2.translate(100,0);
+        g2.rotate(Math.PI);
+        g2.transform(1,0.25,0,1,0,0);
+        g2.drawImage(img,-200,-150);
+
       break;
   }
 }
