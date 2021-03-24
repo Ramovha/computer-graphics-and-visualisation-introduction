@@ -1,0 +1,99 @@
+<html>
+<body>
+
+<p>Canvas:</p>
+<canvas id="myCanvas" width="600" height="600" style="border:1px solid #d3d3d3;">
+Your browser does not support the HTML5 canvas tag.</canvas>
+
+<script>
+var c = document.getElementById("myCanvas");
+var g2 = c.getContext("2d");
+	
+/**
+ * Removes any transformations that have been applied to g2, so that
+ * it is back to the standard default coordinate system.
+ */
+function resetTransform() {
+	g2.setTransform(1, 0, 0, 1, 0, 0);
+}
+	
+/**
+ * Draws a filled circle of radius 50 (diameter 100) centered at (0,0), 
+ * subject to whatever transform(s) have been applied to g2.
+ */
+function circle() {
+	g2.beginPath();
+	g2.arc(-50,-50,100,100, 0, 2*Math.PI);
+	g2.closePath();
+	g2.fill()
+}
+
+/**
+ * Draws a filled square with side 100 centered at (0,0), subject
+ * to whatever transform(s) have been applied to g2.
+ */
+function square() {
+	g2.fillRect(-50,-50,100,100);
+}
+
+/**
+ * Draws a filled triangle with vertices at (-50,50), (50,50), and 
+ * (0,-50), subject to whatever transform(s) have been applied to g2.
+ */
+function triangle() {
+	// the triangle
+	g2.beginPath();
+	g2.moveTo(-50, 50);
+	g2.lineTo( 50, 50);
+	g2.lineTo(  0,-50);
+	g2.closePath();
+	g2.fill();
+	//g2.fillPolygon(new int[] {-50,50,0}, new int[] {50,50,-50}, 3);
+}
+	
+//-----------------------------------------------------------------------------------
+
+function paintComponent() {
+	// TODO Draw the required image, using ONLY the four methods defined above, 
+	// along with g2.fillstyle, g1.scale, g2.translate, and g2.rotate.
+	// REMOVE THE FOLLOWING CODE, which draws a big red X in the upper right quadrant,
+	// then insert your own code to draw the required pictures in the four
+	// quadrants.
+	// ----------------------------------------------------------------------- //
+	// The next two line scale the X to be twice the original size
+	// and then moves the center of the X from (0,0) to (450,150).
+
+	g2.translate(450,150);
+	g2.scale(2,2);
+
+	// Set the drawing color to red.
+	g2.fillStyle="#ff0000";
+
+	// The next three lines draw a tilted rectanglem centered at (0,0).
+
+	g2.rotate(Math.PI/4);
+	g2.scale(1,0.25);
+	square();
+
+	// The next two lines undo the previous scale and rotation.  (Can't use reset()
+	// here becasue that would also eliminate the first translate and scale.)
+
+	g2.scale(1,4);
+	g2.rotate(-Math.PI/4);
+
+	// The next three lines draw a rectangle tilted in the opposite direction.
+
+	g2.rotate(-Math.PI/4);
+	g2.scale(1,0.25);
+	square();
+	// ----------------------------------------------------------------------- //
+	
+}
+
+
+paintComponent();
+
+</script>
+</body>
+</html>
+

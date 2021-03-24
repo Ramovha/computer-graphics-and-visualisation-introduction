@@ -1,0 +1,82 @@
+<html>
+<body>
+
+<p>Canvas:</p>
+<canvas id="myCanvas" width="600" height="600" style="border:1px solid #d3d3d3;">
+Your browser does not support the HTML5 canvas tag.</canvas>
+
+<script>
+var c = document.getElementById("myCanvas");
+var g2 = c.getContext("2d");
+//var img = new Image();
+var img = document.createElement("img");
+img.src = "shuttle.jpg"
+
+function paintComponent(whichSelection) {
+  g2.setTransform(1, 0, 0, 1, 0, 0);
+  g2.clearRect(0, 0, 600, 600);
+  g2.fillStyle = "yellow";
+  g2.fillRect(0, 0, 600, 600);
+  g2.translate(300,300);
+
+  switch(whichSelection){
+    case "0":
+      g2.translate(0,0);
+      g2.scale(1,1);      
+      g2.rotate(Math.PI/2);
+      g2.translate(0,0);
+      //Shear
+      var hshear=0;
+      var vshear=0;
+      // a c e
+      // b d f
+      // 0 0 1
+      //g2.transform(a, b, c, d, e, f);
+      g2.transform(1, vshear, hshear, 1, 0, 0);
+      g2.drawImage(img,-200,-150);
+      break;
+    case "1":
+      //TODO
+      break;
+    case "2":
+      //TODO
+      break;
+    case "3":
+      //TODO
+      break;
+    case "4":    
+      //TODO
+      break;
+    case "5":
+      //TODO
+      break;
+    case "6":
+      //TODO
+      break;
+    case "7":    
+      //TODO
+      break;
+    case "8":
+      //TODO
+      break;
+    case "9":
+      //TODO
+      break;
+  }
+}
+</script>
+<select name="Transform" onchange="paintComponent(this.value)"> 
+<option value=""></option>
+<option value="0">0</option>
+<option value="1">1</option>
+<option value="2">2</option>
+<option value="3">3</option>
+<option value="4">4</option>
+<option value="5">5</option>
+<option value="6">6</option>
+<option value="7">7</option>
+<option value="8">8</option>
+<option value="9">9</option>
+</select>
+</body>
+</html>

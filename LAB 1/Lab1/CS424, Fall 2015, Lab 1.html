@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<meta charset="UTF-8">
+<title>CS424, Fall 2015, Lab 1</title>
+<link rel="stylesheet" href="CS424,%20Fall%202015,%20Lab%201_files/labs_print.css" type="text/css" media="print">
+<link rel="stylesheet" href="CS424,%20Fall%202015,%20Lab%201_files/labs_screen.css" type="text/css" media="screen">
+</head>
+<body>
+<div class="content">
+
+<h2>CS 424: Computer Graphics, Fall 2015<br>
+Lab 1: 2D Transforms in Java Graphics2D</h2>
+
+<div class="intro">
+<p>
+This lab consists of two exercises
+on using two-dimensional transforms.  The exercises are to be written
+in Java, and they use the geometric transforms that are part of the
+Graphics2D API.  The first exercise asks you to
+apply a variety of transforms to produce specific effects on an image.
+The second exercise asks you to draw a picture by applying transforms
+to some basic shapes.</p>
+
+<p>You will need copies of the following files, which you can find in
+<i class="nb">/classes/cs424/lab1-files</i> or download from the Web:
+<a href="http://math.hws.edu/eck/cs424/f15/lab1/lab1-files/Transforms2D.java">Transforms2D.java</a>,
+<a href="http://math.hws.edu/eck/cs424/f15/lab1/lab1-files/TransformedShapes.java">TransformedShapes.java</a>, 
+and <a href="http://math.hws.edu/eck/cs424/f15/lab1/lab1-files/shuttle.jpg">shuttle.jpg</a>.
+You can add these files to the <i>src</i> directory of an Eclipse
+project folder.  If you prefer not to use Eclipse, you can copy them
+to any work folder.</p>
+<p><b>For this lab, you do not need to add any comments to your code.</b></p>
+
+</div>
+
+<div class="section">
+<h3>Exercise 1: Applying Transforms</h3>
+
+<p>
+The program <a href="http://math.hws.edu/eck/cs424/f15/lab1/lab1-files/Transforms2D.java">Transforms2D.java</a> 
+draws an image, <a href="http://math.hws.edu/eck/cs424/f15/lab1/lab1-files/shuttle.jpg">shuttle.jpg</a>, in a display panel.
+The panel is 600-by-600 pixels, and the image is 400-by-300.
+The drawing is done in a <i>paintComponent()</i> method near the beginning
+of the file. The method already applies the 2D transformation
+<i>g2.translate</i>(300,300), which effectively moves (0,0) to the
+middle of the panel, so that the coordinate system on the panel extends
+from -300 on the left to 300 on the right and from -300 at the top to
+300 at the bottom.  The image is drawn with its top-left corner at (-200,-150),
+which puts the center of the image at (0,0).
+</p>
+
+<p>
+The page also contains a pop-up menu labeled "Transform:".
+The options in the menu are "None" and the numbers 1 through 9.   In the program as given,
+the pop-up menu has no effect.  Your job is to apply different transforms
+to the image, depending on the setting of the pop-up menu.  You can do
+this by adding code to the <i>paintComponent</i>() method.  
+(The location where you have to work is marked with a TODO.) You don't have to do anything
+outside of this method.  The method already has a variable, <i>whichSelection</i>,
+which contains a value from 0 to 9 giving the index of the selected item in the
+pop-up menu.  When <i>whichSelection</i>
+is 0, the page should display the untransformed image.  For the other possible
+values, you have to apply some transforms.  You will need a different transform --
+and in some cases, a combination of transforms -- for each of the values 1 through 9.
+</p>
+
+<p>Here are the nine images that you should display for the nine setting of the
+pop-up menu.  The images in your program should be exactly the same as these:</p>
+
+<table align="center" bgcolor="white" border="1" cellpadding="5" cellspacing="0" width="780">
+<tbody><tr>
+  <td><b>1.</b><br><img src="CS424,%20Fall%202015,%20Lab%201_files/1.jpg" height="250" width="250"></td>
+  <td><b>2.</b><br><img src="CS424,%20Fall%202015,%20Lab%201_files/2.jpg" height="250" width="250"></td>
+  <td><b>3.</b><br><img src="CS424,%20Fall%202015,%20Lab%201_files/3.jpg" height="250" width="250"></td>
+</tr>
+  <tr><td><b>4.</b><br><img src="CS424,%20Fall%202015,%20Lab%201_files/4.jpg" height="250" width="250"></td>
+  <td><b>5.</b><br><img src="CS424,%20Fall%202015,%20Lab%201_files/5.jpg" height="250" width="250"></td>
+  <td><b>6.</b><br><img src="CS424,%20Fall%202015,%20Lab%201_files/6.jpg" height="250" width="250"></td>
+</tr>
+  <tr><td><b>7.</b><br><img src="CS424,%20Fall%202015,%20Lab%201_files/7.jpg" height="250" width="250"></td>
+  <td><b>8.</b><br><img src="CS424,%20Fall%202015,%20Lab%201_files/8.jpg" height="250" width="250"></td>
+  <td><b>9.</b><br><img src="CS424,%20Fall%202015,%20Lab%201_files/9.jpg" height="250" width="250"></td>
+</tr>
+</tbody></table>
+
+<p>The only methods that you will need are
+<i>g2.translate</i>(<i>dx,dy</i>),
+<i>g2.scale</i>(<i>sx,sy</i>),
+<i>g2.rotate</i>(<i>angle</i>),
+<i>g2.rotate</i>(<i>angle,x,y</i>), and
+<i>gl.shear</i>(<i>a,b</i>).  Remember that the angle of rotation
+is measured in radians, not degrees.  So, for example, Math.PI is 180 degrees, 
+Math.PI/2 is 90 degrees, Math.PI/4 is 45 degrees, and Math.PI/6 is 30 degrees.
+</p>
+
+
+</div>
+
+<div class="section">
+<h3>Exercise 2: Drawing With Transforms</h3>
+
+<p>For the second exercise of the lab, you should draw the following picture
+by applying transformations to just three basic shapes:</p>
+
+<p align="center"><img src="CS424,%20Fall%202015,%20Lab%201_files/ex2.png" height="600" width="600"></p>
+
+<p class="np">Start with the program <a href="http://math.hws.edu/eck/cs424/f15/lab1/lab1-files/TransformedShapes.java">TransformedShapes.java</a>.
+The point where you have to work is in the <i>paintComponent</i>() method and is marked
+with a TODO.</p>
+
+<p>This program defines three methods that draw basic shapes: <i>circle</i>(), <i>square</i>(), and <i>triangle</i>().
+For example, <i>square</i>() draws a 100-by-100 square centered at the
+point (0,0).  Of course, the drawing is subject to any transforms that have been
+applied to the drawing context, so that the position, scale, and orientation of the figure
+that appears on the screen can be changed by those transforms.  The picture that you draw
+must be made up entirely of transformed versions of the three basic shapes
+produced by calling <i>circle</i>(), <i>square</i>(), and <i>triangle</i>().  You can use
+<i>g2.setColor</i>() to change the color, but do <b>not</b>
+use drawing commands such as <i>g.fillRect</i>().</p>
+
+<p>The full picture is made up of four smaller pictures.
+Work on each smaller picture separately.  It is easiest to
+build the picture with its center at (0,0), at whatever size
+seems natural.  Then scale the picture and translate it to
+the position where you want it in the final image.  Remember that
+transforms are specified <b>before</b> the drawing to which they 
+apply.  For example, if you want to double the size of a drawing
+and move it to (150,150), then you would say</p>
+
+<pre class="code">g2.translate(150,150);
+g2.scale(2,2);
+</pre>
+
+<p class="np">before the code that does the drawing.  Note that
+the translation is specified before the scaling, but the drawing
+is first scaled then translated.  As an example, the program already
+contains code for drawing an "X" shape in the upper right corner
+of the window.  You should read the code and run the program to see what
+it does.  The code that draws the X should be removed and replaced
+by your own code.</p>
+
+<p>This program will take a lot less time if you <i>think</i> before
+you code!</p>
+
+</div>
+
+<div class="section">
+<h3>Turning in Your Work</h3>
+
+<p>Your program must be submitted by the beginning of the lab period next Thursday.
+It must be in a folder named <i>lab1</i> inside your homework folder in
+<i>/classes/cs424/homework</i>.  The Java files must be have their
+original names, <i>Transforms2D.java</i> and <i>TransformedShapes.java</i>.
+Please also include a copy of the image file <i>shuttle.jpg</i> so that
+I can test your programs.</p>
+
+<p>If you are working on one of the Linux computers in our labs, you can simply
+copy your work from your home directory into the homework folder.
+If you have your work on another computer, you can copy it directly to 
+your homework folder using sftp or scp to <i>math.hws.edu</i>.  If you 
+don't know about sftp and scp, please ask about how to use them.</p>
+
+
+
+</div>
+
+
+</div>
+
+
+</body></html>
