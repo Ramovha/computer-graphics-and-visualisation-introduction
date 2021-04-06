@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<meta charset="UTF-8">
+<title>CS424, Fall 2015, Lab 2</title>
+<link rel="stylesheet" href="CS424,%20Fall%202015,%20Lab%202_files/labs_print.css" type="text/css" media="print">
+<link rel="stylesheet" href="CS424,%20Fall%202015,%20Lab%202_files/labs_screen.css" type="text/css" media="screen">
+</head>
+<body>
+<div class="content">
+
+<h2>CS 424: Computer Graphics, Fall 2015<br>
+Lab 2: 2D Graphics with HTML Canvas</h2>
+
+<div class="intro">
+<p>This lab consists of two exercises
+on drawing with the HTML canvas 2D graphics API, which was
+covered in <a href="http://math.hws.edu/graphicsbook/c2/s6.html">Section&nbsp;2.6</a>.
+It requires some knowledge of JavaScript, which was covered briefly in
+<a href="http://math.hws.edu/graphicsbook/a1/s3.html">Section&nbsp;A.3</a>.</p>
+
+<p>You will need copies of the following files, which you can find in
+<i class="nb">/classes/cs424/lab2-files</i> or download from the Web:
+<a href="http://math.hws.edu/eck/cs424/f15/lab2/lab2-files/Lab2Ex1.html">Lab2Ex1.html</a> and
+<a href="http://math.hws.edu/eck/cs424/f15/lab2/lab2-files/Lab2Ex2.html">Lab2Ex2.html</a>.  You can edit
+these files with a text editor or with Komodo Edit.  </p>
+
+
+<p><b>Turning in your work:</b>
+Your programs must be submitted by the beginning of the lab period next Thursday.
+They must be in a folder named <i>lab2</i> inside your homework folder in
+<i>/classes/cs424/homework</i>.  The files must have their
+original names, <i>Lab2Ex1.html</i> and <i>Lab2Ex2.html</i>.</p>
+
+<p><b>For this lab, you should add appropriate comments to the new code that
+you write. And don't be this guy:</b></p>
+
+<p class="np" style="text-align:center">
+<img src="CS424,%20Fall%202015,%20Lab%202_files/xkcd1513_code_quality.png" height="258" width="740">
+<a href="http://xkcd.com/1513">http://xkcd.com/1513</a>
+</p>
+</div>
+
+<div class="section">
+<h3>About Komodo Edit</h3>
+
+<p>Komodo Edit is a free programming environment with support for
+several languages.  In particular, it supports Web development using
+HTML, CSS, and JavaScript.  Although it is not required, I suggest using
+it for the JavaScript programming that you do for this course.
+Komodo Edit 9.1 is installed on the Linux computers in our labs.
+It also runs on Windows and Mac&nbsp;OS.  It can be downloaded from
+<a href="http://komodoide.com/komodo-edit/">http://komodoide.com/komodo-edit/</a>.
+(Download Komodo Edit, not Komodo IDE, which is
+the more powerful commercial version.)</p>
+
+<p>A Komodo Edit project is simply a folder that contains a project file
+with the extension <i>.komodoproject</i>.  To start a project, use
+the "New Project" command in the "Project" menu.  You will be asked to
+save a .komodoproject file.  You can save it into an empty folder or
+one that already contains some files.  All the files and subfolders in
+the folder will automatically be part of the project.  If you add new
+files to the folder, they will automatically be added to the project.
+You might want to create a project to hold all of your JavaScript
+work for the course.  You could also create a project for each lab.
+(In fact, you can use Komodo Edit to edit files that are not part
+of a project, but there are some advantages to having a project to
+organize your work.)</p>
+
+<p>For this lab, after creating the project, you should copy the two
+HTML files into the project folder.  You will see them listed in the
+project contents on the left side of the Komodo window.  Double-click
+a file name to open it for editing.</p>
+
+<p>To open the HTML file that you are editing in a Web browser, click
+the "world" icon in the toolbar.  A "Preview" dialog will pop up
+where you can select the browser that you want to use.  (The "Default"
+browser is the Komodo Edit window, and it will open the page in
+a new tab.)  Note the checkbox for "Remember this selection for this
+file".  Once the file is open in a web browser, you can just use the
+browser's reload button to view the results after modifying the program.  (But don't
+forget to save the program first.)</p>
+
+<p>(Note: Komodo Edit has a peculiar "feature" that makes it impossible to store
+your user preferences in your home directory on our AFS file server.  The command that
+runs Komodo Edit on the lab machines is actually a wrapper that puts the
+user preferences folder in the /tmp directory on the local hard drive.  This works,
+but it means that if you move to a different computer, your preferences will
+not carry over.  This is not a big deal, but it means that Komodo Edit will not
+remember the project that you were working on, and you will have to use
+the "Open Project" command in the "Project" menu to get back to it.  You can
+avoid that by always using the same computer.  Or by using your own computer.)
+
+</p></div>
+
+<div class="section">
+<h3>Exercise 1:  Shapes</h3>
+
+<p>The file <a href="http://math.hws.edu/eck/cs424/f15/lab2/lab2-files/Lab2Ex1.html">Lab2Ex1.html</a> is a copy of the sample program
+<a href="http://math.hws.edu/graphicsbook/source/canvas2d/GraphicsPlusStarter.html">GraphicsStarterPlus.html</a>
+from the textbook, with the sample drawing code removed.  For the first part of the lab, you should
+add new drawing code to the <i>draw</i>() function in <i>Lab2Ex1.html</i>
+to draw the following picture, including the dividing lines:</p>
+
+<p style="text-align: center" class="np">
+<img src="CS424,%20Fall%202015,%20Lab%202_files/Lab2Ex1.png" style="background-color:white; border: 2px solid black" height="600" width="600">
+</p>
+
+<p>The heart can be drawn as a path made up of two Bezier curves. I suggest that you
+try making a heart in the
+<a href="http://math.hws.edu/graphicsbook/demos/c2/cubic-bezier.html">Bezier curve demo</a>
+from <a href="http://math.hws.edu/graphicsbook/c2/s2.html">Section&nbsp;2.2</a>
+to get some idea of where the control points need to be placed.  It will take some
+experimentation to get the shape right!</p>
+
+<p>The size of the canvas is 600-by-600.  You can use the standard pixel coordinates, or you can
+apply a transformation to use a more convenient coordinate system.  If you do the later, remember
+that line width is also transformed, and you will probably find it convenient to set the line width
+as a multiple of the global variable <i>pixelSize</i>.  You also have the option of drawing
+the objects directly in world coordinates or using modeling transformations.  In fact, I mostly
+just used plain pixel coordinates when I drew the picture.</p>
+
+<p>The 2D graphics context in the program is named <i>graphics</i>.  It has all the properties
+discussed in <a href="http://math.hws.edu/graphicsbook/c2/s6.html">Section&nbsp;2.6</a> of
+the textbook.  In addition, the following non-standard drawing commands have been added to
+the graphics context:</p>
+
+<ul>
+<li><code>graphics.strokeLine(x1,y1,x2,y2)</code> — draw the line segment from (x1,y1) to (x2,y2).</li>
+<li><code>graphics.strokeCircle(x,y,r)</code> — stroke the circle with center (x,y) and radius&nbsp;r.</li>
+<li><code>graphics.strokeOval(x,y,rx,ry)</code> — stroke the oval with center (x,y), horizontal radius rx, and vertical radius&nbsp;ry.</li>
+<li><code>graphics.strokePoly(x1,y1,x2,y2,x3,y3,...)</code> — stroke the polygon with vertices (x1,y1), (x2,y2), (x3,y3),&nbsp;...</li>
+<li><code>graphics.fillCircle(x,y,r)</code> — fill the circle with center (x,y) and radius&nbsp;</li>
+<li><code>graphics.fillOval(x,y,rx,ry)</code> — fill the oval with center (x,y), horizontal radius rx, and vertical radius&nbsp;ry.</li>
+<li><code>graphics.fillPoly(x1,y1,x2,y2,x3,y3,...)</code> — fill the polygon with vertices (x1,y1), (x2,y2), (x3,y3),&nbsp;...</li>
+</ul>
+
+</div>
+
+<div class="section">
+<h3>Exercise 2: Mousing</h3>
+
+<p>For the second exercise, you will work with <a href="http://math.hws.edu/eck/cs424/f15/lab2/lab2-files/Lab2Ex2.html">Lab2Ex2.html</a>,
+a program that implements mouse interaction.  As it stands, the program draws a sequence of squares
+as the user drags the mouse on the canvas.  You will add several additional drawing tools that
+respond to a mouse drag in different ways.</p>
+
+<p>A drag action consists of a mouse down event, a sequence of mouse move events, and
+a mouse up event.  The program defines functions to respond to these events.  To implement
+the new tools, you will work mostly in the function <i>doMouseMove</i>(), which responds to
+mouse move events.  You might also need to add something to <i>doMouseDown</i>().  Aside from
+implementing the tools, there are a few more things that have to be added to the program.</p>
+
+<p><b>First,</b> you should add a "Clear" button to the program.  When the user clicks the
+button, the canvas should be filled with white.  To do that, you need to add
+the HTML code for the button itself to the &lt;body&gt; of the web page.  That takes the
+form</p>
+
+<pre class="code">&lt;button id="clearButton"&gt;Clear&lt;/button&gt;
+</pre>
+
+<p class="np">And you need to set up an event handler to respond to click events on the button.
+To do that, define a JavaScript function to clear the canvas.  Then, as part of initialization,
+install it as the event handler using a command of the form</p>
+
+<pre class="code">document.getElementById("clearButton").onclick = doClear;
+</pre>
+
+<p class="np">where <i>doClear</i> is the name of the function.</p>
+
+<p><b>Second,</b> add at least one new color to the &lt;select&gt; element that creates
+the Color popup menu.  Implement the new color by adding code to the <i>doMouseMove</i>
+function.</p>
+
+<p><b>Third,</b> add a new &lt;select&gt; element that will let the user select the
+drawing tool that they want to use, and implement that menu by adding code to the
+mouse-handling functions.  This is the major part of the exercise.  You should
+add at least four new tools.  They must include:</p>
+
+<ul>
+<li>A tool similar to the original squares tool, except that it draws a non-trivial shape
+such as a star or a heart.  (Non-trivial means that you need to create it as a path
+or polygon.  In particular, <b>not</b> just circles or ovals.)</li>
+<li>A Curve tool that simply draws a line segment from the previous mouse position to the current mouse position.
+Note that the variables <i>prevX</i> and <i>prevY</i> are already defined to represent the
+previous mouse position.</li>
+<li>A tool that uses the starting position of the mouse, which is given by the variables
+<i>startX</i> and <i>startY</i>, as well as the current position.  For example, draw
+a circle with center at the starting point and passing through the current position.</li>
+<li>One additional tool of your choice.  (You might consider an "erase" tool that
+simply draws in white.)</li>
+</ul>
+
+<p class="np">Here, for example, is a drawing made with my completed version of the
+program, showing examples of four tools:</p>
+
+<p style="text-align: center" class="np">
+<img src="CS424,%20Fall%202015,%20Lab%202_files/Lab2Ex2.png" style="background-color:white; border: 2px solid black" height="480" width="600">
+</p>
+
+
+</div>
+
+
+</div>
+
+
+</body></html>
