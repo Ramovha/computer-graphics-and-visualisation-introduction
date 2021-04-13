@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<meta charset="UTF-8">
+<title>CS424, Fall 2015, Lab 3</title>
+<link rel="stylesheet" href="CS424,%20Fall%202015,%20Lab%203_files/labs_print.css" type="text/css" media="print">
+<link rel="stylesheet" href="CS424,%20Fall%202015,%20Lab%203_files/labs_screen.css" type="text/css" media="screen">
+<style>
+img {
+   border:2px solid black;
+}
+</style>
+</head>
+<body>
+<div class="content">
+
+<h2>CS 424: Computer Graphics, Fall 2015<br>
+Lab 3: Hierarchical Modeling</h2>
+
+<div class="intro">
+<p>Once again in this lab, you will be making picures by applying modeling transformations
+to basic shapes.  But in this case, the modeling will be hierarchical.  That is, you can
+have compound objects that are made from transformed simpler objects.  Furthermore, some of the
+objects in this lab will animated by applying different modeling transformations in different
+frames.</p>
+
+<p>You can choose to work either in Java or in JavaScript.  If you would like to program in
+Java, you will need copies of the files
+<a href="http://math.hws.edu/eck/cs424/f15/lab3/lab3-files-java/SubroutineHierarchy.java">SubroutineHierarchy.java</a> and
+<a href="http://math.hws.edu/eck/cs424/f15/lab3/lab3-files-java/SceneGraph.java">SceneGraph.java</a>, which can be found
+in the directory <i style="white-space:pre">/classes/cs424/lab3-files-java</i>.
+If you would like to program in
+JavaScript, you will need copies of the files
+<a href="http://math.hws.edu/eck/cs424/f15/lab3/lab3-files-js/SubroutineHierarchy.html">SubroutineHierarchy.html</a> and
+<a href="http://math.hws.edu/eck/cs424/f15/lab3/lab3-files-js/SceneGraph.html">SceneGraph.html</a>, which can be found
+in the directory <i style="white-space:pre">/classes/cs424/lab3-files-js</i>.</p>
+
+<p>All of these files are set up to use a coordinates system with x ranging from
+-4 on the left to 4 on the right and y ranging from -3 at the bottom to 3 at the
+top.  You can use a different coordinate system if you prefer.  Just change the
+values of the constants X_LEFT, X_RIGHT, Y_TOP, and Y_BOTTOM.</p>
+
+
+<p><b>Turning in your work:</b>
+Your programs must be submitted by the beginning of the lab period next Thursday.
+They must be in a folder named <i>lab3</i> inside your homework folder in
+<i style="white-space:pre:">/classes/cs424/homework</i>.  You should have either three .java files or
+three .html files. (It won't make any difference what their names are or whether they are
+in subdirectories, but you should not include any extra .java or .html files.)</p>
+
+<p><b>Remember that for this lab and for all future labs, your programs should use good programming style.</b></p>
+
+</div>
+
+<div class="section">
+<h3>Subroutine Hierarchy</h3>
+
+<p>For the first exercise, you will draw compound objects using subroutines.  You should work either on the
+file <a href="http://math.hws.edu/eck/cs424/f15/lab3/lab3-files-java/SubroutineHierarchy.java">SubroutineHierarchy.java</a> or
+<a href="http://math.hws.edu/eck/cs424/f15/lab3/lab3-files-js/SubroutineHierarchy.html">SubroutineHierarchy.html</a>.
+The file already contains subroutines
+that draw certain basic shapes.  You will need to write subroutines to 
+draw the more complex objects that appear
+in the scene.  The subroutines that you write can call the subroutines 
+for drawing basic shapes, and they can call other subroutines
+that you have written.  Here is the scene that you should create:</p>
+
+<p class="np" style="text-align:center"><img src="CS424,%20Fall%202015,%20Lab%203_files/wheels.png" height="472" width="650"></p>
+
+<p class="np">You need a subroutine to draw an object consisting of a triangle and a bar, with two
+wheels on the ends of the bar.  The scene is made up of three copies of the object.  When the
+animation is run, The wheels rotate about their center, while at the same time the bar is rotating
+about its center.  
+You will first want to create a wheel, consisting of a circle and some lines:</p>
+
+<p class="np" style="text-align:center"><img src="CS424,%20Fall%202015,%20Lab%203_files/onewheel.png" height="110" width="118"></p>
+
+<p class="np">You can the build on that to create a bar with rotating wheels on its ends:</p>
+
+<p class="np" style="text-align:center"><img src="CS424,%20Fall%202015,%20Lab%203_files/bar.png" height="174" width="500"></p>
+
+<p class="np">You can then build the main object and put copies of it in the scene.  Keep in mind
+that you can test each of the subroutines as you write them, in order to make sure that they are working
+before you try to use them in a more complex object.</p>
+
+<p>You will need to save and restore the graphics context's transform many times.  In Java, you 
+can get a copy of the current transform with</p>
+
+<pre class="code">AffineTransform saveTr = g2.getTransform();
+</pre>
+
+<p class="np">and you can restore the transform to saved value with</p>
+
+<pre class="code">g2.setTransform(saveTr);
+</pre>
+
+<p class="np">In JavaScript, the functions <i>graphics.save</i>() and <i>graphics.restore</i>() are
+used to save and restore the current transform, along with other properties of the graphics context
+such as color.  (One important difference in JavaSript is that <i>graphics.save</i>() and <i>graphics.restore</i>()
+use a stack: <i>graphics.save</i>() pushes a value onto the stack, and <i>graphics.restore</i>() pops a
+value from the top of the stack.  This means that every call to <i>graphics.save</i>() must be matched
+by a call to <i>graphics.restore</i>().)</p>
+
+
+</div>
+
+
+<div class="section">
+<h3>Scene Graph</h3>
+
+<p>For the second exercise, you should draw exactly the same animated scene as for the first exercise,
+but you will create it by building a scene graph to represent the contents of the scene.
+For this exercise, you should work either on the file
+<a href="http://math.hws.edu/eck/cs424/f15/lab3/lab3-files-java/SceneGraph.java">SceneGraph.java</a> or
+<a href="http://math.hws.edu/eck/cs424/f15/lab3/lab3-files-js/SceneGraph.html">SceneGraph.html</a>.
+We discussed the scene graph API in class, and it is covered in
+<a href="http://math.hws.edu/graphicsbook/c2/s4.html#graphics2d.4.2">Section&nbsp;4.2</a>.
+The API is very simple, with just a few classes and several predefined objects to represent
+basic shapes.</p>
+
+</div>
+
+
+<div class="section">
+<h3>Complex Scene</h3>
+<p>As a final exercise, you should design and implement your own complex animated scene using
+hierarchical modeling.  You can use either the subroutine or the scene graph approach.  Start with
+a renamed copy of any of the other files from the lab.</p>
+
+<p>The 
+<a href="http://math.hws.edu/graphicsbook/demos/c2/cart-and-windmills.html">"cart-and-windmills"</a>
+example from Section&nbsp;4.2 is an example of such a scene.  Your scene should include several
+different complex objects, and it should have multiple copies of at least one of those objects.
+At least one of the models must have moving parts (like the wheels on the cart or the vanes
+on the windmills.)  Try for something as "realistic" as the cart-and-windmill example.
+If you can't think of anything else, how about a rotating ferris wheel (with rectangles for
+the seats).  Note that on a ferris wheel, the seats remain horizontal as the wheel turns.
+You could add some clouds drifting across the sky (made from a few filled circles).  Maybe
+someone swinging in a swing?  Or a sailboat that floats across a lake?  An airplane?
+Of course, there's always the possibility of a snowman — maybe his head could roll
+back and forth on his arms!</p>
+</div>
+
+
+</div>
+
+
+</body></html>
