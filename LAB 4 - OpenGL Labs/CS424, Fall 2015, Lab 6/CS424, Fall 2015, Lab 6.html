@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<meta charset="UTF-8">
+<title>CS424, Fall 2015, Lab 6</title>
+<link rel="stylesheet" href="CS424,%20Fall%202015,%20Lab%206_files/labs_print.css" type="text/css" media="print">
+<link rel="stylesheet" href="CS424,%20Fall%202015,%20Lab%206_files/labs_screen.css" type="text/css" media="screen">
+</head>
+<body>
+<div class="content">
+
+<h2>CS 424: Computer Graphics, Fall 2015<br>
+Lab 6: Light and Material in OpenGL 1.1</h2>
+
+<div class="intro">
+
+<p>This lab asks you to make some 3D objects and place them on a "stage."
+The scene uses lighting, and the objects will need materials.  Initially,
+only basic lighting is turned on.  As part of the lab, you will have
+to improve the lighting.  Some of the objects will be GLUT shapes, which
+come with the necessary normal vectors.  But some will be polyhedra that
+you need to draw yourself, using data from a collection of polyhedron objects.  </p>
+
+<p>You can do this lab in either Java or&nbsp;C.
+To do the lab in Java, you will need the files
+<a href="http://math.hws.edu/eck/cs424/f15/lab6/lab6-files-java/Lab6.java">Lab6.java</a> and
+<a href="http://math.hws.edu/eck/cs424/f15/lab6/lab6-files-java/Polyhedron.java">Polyhedron.java</a>, which you can find in
+<i style="white-space:pre">/classes/cs424/lab6-files-java</i>.
+To do the lab in C, you will need the files
+<a href="http://math.hws.edu/eck/cs424/f15/lab6/lab6-files-c/lab6.c">lab6.c</a>, 
+<a href="http://math.hws.edu/eck/cs424/f15/lab6/lab6-files-c/polyhedron.c">polyhedron.c</a>, and
+<a href="http://math.hws.edu/eck/cs424/f15/lab6/lab6-files-c/polyhedron.h">polyhedron.h</a>, which you can find in
+<i style="white-space:pre">/classes/cs424/lab6-files-c</i>.
+You will only need to work on one file, <b>Lab6.java</b> or
+<b>lab6.c</b>.  If you choose to work in C, note the compilation
+command that is given in the comment at the beginning of lab6.c.</p>
+
+<p><b>This lab is due next Thursday, October 15.  Submit either the file
+Lab6.java or the file lab6.c to your homework folder in <span style="white-space:pre">/classes/cs424/homework.</span>
+(However, because of Fall break, I promise that I won't look for your work until Saturday,
+October 17.)</b></p>
+
+
+</div>
+
+<div class="section">
+<h3>Rotate the Stage</h3>
+
+<p>The "stage" is a 20-by-20 slab, one unit thick, perpendicular to the <i>y</i>-axis.
+The top of the stage is at y&nbsp;=&nbsp;0; that is, it lies in the <i>xz</i>-plane.
+You should place objects so that they rest on the top of the stage.  Before you start,
+the program draws nothing but the stage.</p>
+
+<p>It would be nice to be able to rotate the stage, to get a better view of the
+objects.  As part of the lab, you should implement that rotation.  (You can do this
+part at any time, since it's independent of the other parts of the lab.)</p>
+
+<p>The program already has mouse event handling set up.  You just need to add some code
+to do the rotation.  I would like to see rotation about the <i>y</i>-axis.  (The effect
+can be seen in the demo, 
+<a style="white-space:pre" href="http://math.hws.edu/graphicsbook/demos/c5/raycaster-input.html">raycaster-input.html</a>,
+from <a href="http://math.hws.edu/graphicsbook/c5/s3.html#threejs.3.2">Subsection&nbsp;5.3.2</a>, 
+with the "Mouse Action" in the demo  set to "Rotate".)</p>
+
+<p>You will need to add a rotation about the <i>y</i>-axis to the <i>display</i>() function.
+The <i>mouseDragged</i>() function has to change the y-rotation by an amount that depends 
+on how far the mouse has moved in the x-direction (left/right).</p>
+
+<p>You might consider allowing some rotation about the <i>x</i>-axis as well, as long as you limit
+the range of angles to a fairly small interval.  That would make it possible to tilt the
+stage to some degree.</p>
+
+
+</div>
+
+
+
+
+<div class="section">
+<h3>Working with Materials</h3>
+
+<p>The program has a two dimensional array named <i>materials</i> that contains material properties that are 
+supposed to imitate some actual common materials such as bronze and green plastic.
+I would like you to use some of these materials on your objects.  (But it would be nice
+to invent at least one additional material of your own.)</p>
+
+<p>Each row of the array specifies a material.  A row is a 13-element array of floats.
+The meaning of the data is described in a comment in the program.  It will be 
+convenient to have a subroutine that takes a 13-element array of floats and uses
+the data from the array to set the OpenGL material properties.  (Actually, the code for using
+an array of this form in both C and Java can be found in
+<a href="http://math.hws.edu/graphicsbook/c4/s2.html#gllight.2.1">Subsection&nbsp;4.2.1</a>.)</p>
+
+</div>
+
+
+
+
+<div class="section">
+<h3>Add Some GLUT Objects</h3>
+
+<p>To begin, use GLUT to draw several objects on the stage.  The objects should look like they
+are standing on the stage, not floating above it.  In some cases, you might want an object
+that actually extends inside the stage.  For example, you can have an object that looks
+like a hemisphere by drawing a complete sphere whose equator lies along the stage.
+Remember that the top of the stage is the <i>xz</i>-plane, y&nbsp;=&nbsp;0.</p>
+
+<p>There are more GLUT shapes than we have covered in lab or class.  Some of them
+are described near the end of <a href="http://math.hws.edu/graphicsbook/c3/s6.html#gl1geom.6.1">Subsection&nbsp;3.6.1</a>.
+The full lists
+<a href="http://jogamp.org/deployment/jogamp-next/javadoc/jogl/javadoc/com/jogamp/opengl/util/gl2/GLUT.html">for&nbsp;JOGL</a>
+and <a href="http://freeglut.sourceforge.net/docs/api.php#GeometricObject">for&nbsp;FreeGLUT</a>
+can be found online.  (Don't miss the teapot!)</p>
+
+<p>At least one object should be a wireframe object that is drawn with lighting disabled.
+Remember that when lighting is disabled, color is set by <i>glColor*</i>.  Also, note that
+it is possible to increase the line width by calling <i>glLineWidth</i>(w), where <i>w</i>
+is specified in pixels.  GLUT has commands for drawing wireframes, such as <i>glutWireSphere</i>()
+and <i>glutWireCone</i>().  The wireframe versions have the same parameters as the solid versions.</p>
+
+<p>Aside from the wireframes, each of the other GLUT objects should have its own material.</p>
+
+</div>
+
+
+
+
+<div class="section">
+<h3>Add Some Polyhedra</h3>
+
+<p>The file <i>Polyhedron.java</i> (for Java)—or the files <i>polyhedron.c</i> and <i>polyhedron.h</i> (for&nbsp;C)—defines
+the following variables of type <i>Polyhedron</i> that represent various polyhedra:</p>
+
+<pre style="margin-left:1in">dodecahedron
+icosahedron
+octahedron
+rhombicDodecahedron
+socerBall
+stellatedDodecahedron
+stellatedIcosahedron
+stellatedOctahedron
+tetrahedron
+truncatedIcosahedron
+truncatedRhombicDodecahedron
+</pre>
+
+<p class="np">You can view these polyhedra, without lighting, in the demo,
+<a href="http://math.hws.edu/graphicsbook/demos/c3/IFS-polyhedron-viewer.html" style="white-space:pre">polyhedron-viewer</a>,
+from <a href="http://math.hws.edu/graphicsbook/c3/s4.html#gl1geom.4.1">Subsection&nbsp;3.4.1</a>.
+
+</p><p>An object, <i>poly</i>, of type <i>Polyhedron</i> has properties <i>poly.vertices</i>, <i>poly.faces</i>,
+and <i>poly.faceNormals</i> that define the polyhedron.  Read the comment at the
+start of <i>Polyhedron.java</i> or <i>polyhedron.h</i> for more information.  (These properties have different forms
+in Java and in C; in Java, they are two-dimensional arrays; in C, they are one-dimensional.  If you are working
+in C, in particular, be sure that you understand the data format.  Note that in C, the lengths of the arrays
+are given as additional Polyhedron properties.  In Java, of course, the length is a property of the array object itself.)</p>
+
+<p>The polyhedra are centered at (0,0,0).  Note that there is also a numeric
+property <i>poly.maxVertexLength</i> that says how big the polyhedron is; this might help you decide
+by how much the polyhedron needs to be scaled when you add it to the stage.  </p>
+
+<p><b>You should write a subroutine</b> that takes an object of type <i>Polyhedron</i> as parameter and
+renders the polyhedron.  You can use <i>glBegin/glEnd</i> to draw each face.  The normal vector that you
+need for the face can be found in the <i>faceNormals</i> property of the object.</p>
+
+<p>Once you have your subroutine, you should use it to add several polyhedra to the stage, each with its
+own material.</p>
+
+<p>(If you have the time, you might want to draw the edges of at least some of the polyhedra as well as the faces.  To get the
+edges to look really good, you need to understand "polygon offset," which is covered in 
+<a href="http://math.hws.edu/graphicsbook/c3/s4.html#gl1geom.4.1">Subsection&nbsp;3.4.1</a>.)
+
+</p></div>
+
+
+
+
+<div class="section">
+<h3>Improve the Lighting</h3>
+
+<p>The program that you are working on for the lab has only basic lighting.  That is, the default GL_LIGHT0 is turned
+on.  This light, by default, has diffuse and specular color both set to (1,1,1,1), and has position set to
+(0,0,1,0).</p>
+
+<p>You should improve the lighting of the scene.  Do not try to make moving lights.  Set their positions in the initialization
+method, the same place where lighting is enabled.  Use three or four lights (definitely no more than four!).
+You might consider adding a point light above the stage and two more point lights in front of the stage and offset
+to the left and right.  You might or might not want to keep the default position for light zero.  Note that the 
+positions do not necessarily need to be symmetrical.  It might even look better if they are not symmetrically placed.
+The light positions are set in eye coordinates, with the viewer at (0,0,0), looking in the direction of
+the negative z-xis.</p>
+
+<p>You will have to set the light colors for the new lights that you add.  (The default color is black; that is, if you
+don't change the color, the light gives off no light at all.)  You will <b>not</b> be able to use light colors equal to
+(1,1,1,1).  The problem is that if you have too much light in a scene, the material colors of your objects become saturated
+and washed out.  To get the scene to look good, you will need RGB color components for your lights that are substantially
+less than&nbsp;1.0.</p>
+
+</div>
+
+
+
+
+<div class="section">
+<h3>Don't Forget Your Midterm Project!</h3>
+
+<p>Remember that you should continue to work on the <a href="http://math.hws.edu/eck/cs424/f15/lab5/index.html">midterm&nbsp;project</a>.
+Now that we have encountered light and material in OpenGL 1.1, you can think about how you will add
+material properties to your scene graph.  Remember that you don't need to follow the OpenGL API
+exactly.  For example, you might decide to always use the same value for the ambient and diffuse
+material properties.  You might also think about what kind of support for lighting you will provide
+in your API.</p>
+
+</div>
+
+
+
+
+</div>
+
+
+</body></html>
