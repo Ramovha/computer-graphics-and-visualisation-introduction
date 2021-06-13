@@ -2,7 +2,6 @@ import * as THREE from "../threejs/three.module.js";
 import {PlaneGeometry, TextureLoader} from "../threejs/three.module.js";
 import {Avatar} from "./Avatar.js";
 import {SceneHandler} from "./SceneHandler.js";
-import {StageDescriber} from "./StageDescriber.js";
 
 /*
 * builds the whole world
@@ -16,8 +15,6 @@ export class GameWorld{
     _Initialize(){
         this._InitVars();
         this._InitGround();
-        this._InitRoad();
-        this._InitAvatar();
     }
 
     /*
@@ -60,56 +57,55 @@ export class GameWorld{
         const texture = new TextureLoader().load('texture/download.jpg');
         const geometry = new PlaneGeometry(50000, 50000);
         const material = new THREE.MeshPhongMaterial({map: texture, side: THREE.DoubleSide});
-        const ground = new THREE.Mesh(geometry, material);
+        this._ground = new THREE.Mesh(geometry, material);
 
-        ground.rotation.x = Math.PI/2;
-        ground.position.y -= 0.4;
-        ground.position.z += 22000;//since objects are added at the center, we need to move them a bit forward
-        ground.receiveShadow = true;
-        ground.castShadow = true;
+        this._ground.rotation.x = Math.PI/2;
+        this._ground.position.y -= 0.4;
+        this._ground.position.z += 22000;//since objects are added at the center, we need to move them a bit forward
+        this._ground.receiveShadow = true;
+        this._ground.castShadow = true;
 
-        this._gameWorld.add(ground);
+        this._gameWorld.add(this._ground);
     }
 
-    //builds the sides of the roads
-    _InitRoad(){
-        const bg = new THREE.BoxGeometry( 60, 5, 50000 );
-        const edges = new THREE.EdgesGeometry( bg );
-        this._sideLines = new THREE.LineSegments( edges,
-            new THREE.LineBasicMaterial( { color: 0xffffff, lineWidth: 2 } ) );
-
-        this._sideLines.position.x = -1000;
-        this._sideLines.position.z += 22000; //since objects are added at the center, we need to move them a bit forward
-        const otherLine = this._sideLines.clone();
-        otherLine.position.x = 1000;
-
-        this._gameWorld.add(this._sideLines);
-        this._gameWorld.add(otherLine);
+    /*
+    * builds the stage, takes in stage param which tells it which stage to build
+    * */
+    buildStage(stage){
+        this._InitAvatar(stage);
     }
 
     /*
     * responsible for calling the avatar class to load the game avatar
+    * and then builds up the stage, we do this because the avatar model takes
+    * time to load, so we load it asynchronously and once the model is fully
+    * loaded, we then
     * */
-    _InitAvatar(){
+    _InitAvatar(stage){
         this._avatar.getAvatar.then(avatar => {
             this._gameWorld.add(avatar);
             this._avatar3DObj = avatar;
             this._LoadCharacterSpotLight();
-            this._BuildScene();
+            this._BuildScene(stage);
         });
     }
 
     //responsible for keeping track of key press
     mapKey(code, state){
         this._avatar.mapKey(code, state);
+        if (state && code === 'KeyC'){
+            this._avatar.changeCamera();
+        }
+        if (state && code === 'Escape'){
+            window.pauseGame();
+        }
     }
 
     //responsible for building the scene
-    _BuildScene(){
-        const audio = new Audio('audio/bg_music.mp3');
-        audio.play().then();
+    _BuildScene(stage){
+        if (!window.bg_music.isPlaying)window.bg_music.play().then();
         //the sceneHandler uses index face set to build the scene
-        this._sceneHandler = new SceneHandler(StageDescriber.Stages.ONE, StageDescriber.stage1(), this._gameWorld);
+        this._sceneHandler = new SceneHandler(stage, this._gameWorld, this._avatar);
     }
 
     _LoadCharacterSpotLight(){
@@ -137,22 +133,21 @@ export class GameWorld{
         const lerped1Color = this.lerp1Colors(time);
 
         this._avatar.animate(time, delta);
-        this._sideLines.material.color = lerped0Color;
+
 
         if (this._avatar3DObj){
             this._avatar3DObj.position.z += 30;
-            window._mainCamera.position.z += 30;
             this._pathSpotLight.position.z += 30;
+            window._pipvCamera.position.z = this._avatar3DObj.position.z + 500;
+            //move ground as well, this prevents redrawing the ground
+            this._ground.position.z += 30;
         }
 
-
-        //this._gate.animate(lerped1Color, delta);
-        this._UpdateCameraPosRelativeToAvatar();
         this._UpdatePathSpotLight(lerped1Color);
 
         if (this._sceneHandler){
-            this._sceneHandler.animate(time, delta, lerped1Color);
-            this._sceneHandler.checkForCollision(this._avatar3DObj);
+            this._sceneHandler.animate(time, delta, lerped0Color, lerped1Color);
+            this._sceneHandler.checkForCollision();
         }
     }
 
@@ -160,14 +155,6 @@ export class GameWorld{
         if (this._pathSpotLight && this._avatar3DObj){ //if they are not null
             this._pathSpotLight.color = lerped1Color;
             this._pathSpotLight.position.x = this._avatar3DObj.position.x;
-
-        }
-    }
-
-    _UpdateCameraPosRelativeToAvatar(){
-        if (this._avatar3DObj){//if not null
-            window._mainCamera.position.x = this._avatar3DObj.position.x;
-            window._mainCamera.lookAt(this._avatar3DObj.position.x, 60, this._avatar3DObj.position.z + 100);
         }
     }
 

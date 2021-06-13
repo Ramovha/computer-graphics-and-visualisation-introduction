@@ -39,24 +39,16 @@ export class Gate{
     * */
     _InitLockedGate(){
         this._BuildBaseGate();
+        this._baseGate.name = "lock";
         this._lockedGate.add(this._baseGate);
         //builds and positions the lock that appears with the game
         this._lock = this._GenerateLock();
         this._lock.position.y = 80;
         this._refractor = this._GenerateRefractivePlane();
-        this._refractor.position.y = 80;
+        this._refractor.position.y = 400;
 
         this._lockedGate.add(this._lock);
         this._lockedGate.add(this._refractor);
-    }
-
-    /*
-    * responsible for unlocking a gate
-    * */
-    unlock(){
-        const audio = new Audio('audio/gate_unlock.mp3');
-        audio.play().then();
-        this._lockedGate.remove(this._lock);
     }
 
     /*
@@ -76,7 +68,7 @@ export class Gate{
     * this is done possible through the waterRefractionShader provided by Three.js
     * */
     _GenerateRefractivePlane(){
-        const geometry = new PlaneGeometry(400, 400);
+        const geometry = new PlaneGeometry(400, 800);
         const refractor = new Refractor(geometry, {
             color: 0x999999,
             textureWidth: 4096,
@@ -127,7 +119,6 @@ export class Gate{
     _GenerateTorus(){
         const geometry = new THREE.TorusGeometry(19, 1.3, 30, 200);
         const material = new THREE.MeshLambertMaterial({color: 0x88d81f, flatShading: true});
-
         return new THREE.Mesh(geometry, material);
     }
 

@@ -1,0 +1,93 @@
+*{
+    padding: 0;
+    margin: 0;
+}
+
+body{
+    text-align: center;
+}
+
+.gui{
+    z-index: 2;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: black;
+    display: flex;
+}
+
+.gui-button{
+    width: 180px;
+    height: 60px;
+    font-size: 20px;
+    font-weight: bold;
+    margin: 8px;
+    background-color: transparent;
+    border: 2px solid #005975;
+    color: #005975;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.gui-button:hover{
+    transform: scale(1.3);
+}
+
+.gui-button-1{
+    border: 2px solid #35B22D;
+    color: #35B22D;
+}
+
+.gui-menu-section-left{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 40%;
+}
+
+.gui-menu-section-right{
+    width: 60%;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    display: flex;
+}
+
+.title{
+    font-size: 140px;
+    color: black;
+    -webkit-text-stroke-width: 1px;
+    -webkit-text-stroke-color: #35B22D;
+}
+
+.sub-title{
+    font-size: 70px;
+    color: black;
+    -webkit-text-stroke-width: 1px;
+    -webkit-text-stroke-color: #FF0040;
+}
+
+#pipv{
+    height: 200px;
+    width: 300px;
+    border: 1px solid green;
+    background-color: green;
+    position: absolute;
+    right: 32px;
+    top: 32px;
+    z-index: 1;
+}
+
+#levelIndicator{
+    z-index: 1;
+    position: absolute;
+    left: 50%;
+    top: 30px;
+    font-size: 40px;
+    transform: translateX(-50%);
+    color: transparent;
+    -webkit-text-stroke-width: 1px;
+    -webkit-text-stroke-color: #FF0040;
+}
